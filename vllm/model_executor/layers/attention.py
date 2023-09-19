@@ -265,8 +265,8 @@ class PagedAttentionWithRoPE(PagedAttention):
 
         # Create the cos and sin cache.
         inv_freq = 1.0 / (base**(
-            torch.arange(0, rotary_dim, 2, dtype=torch.float32) / rotary_dim))
-        t = torch.arange(max_position, dtype=torch.float32)
+            torch.arange(0, rotary_dim, 2, dtype=torch.float32, device="cuda") / rotary_dim))
+        t = torch.arange(max_position, dtype=torch.float32, device="cuda")
         freqs = torch.einsum("i,j -> ij", t, inv_freq)
         cos = freqs.cos()
         sin = freqs.sin()
